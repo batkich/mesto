@@ -1,0 +1,10 @@
+.header {
+  margin: 0;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 45px;
+  padding-bottom: 36px;
+  grid-area: header;
+}

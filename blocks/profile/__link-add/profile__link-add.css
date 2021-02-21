@@ -1,0 +1,5 @@
+.profile__link-add {
+  margin: 0;
+  grid-column: 4/5;
+  justify-self: end;
+}

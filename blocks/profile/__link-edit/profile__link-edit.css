@@ -1,0 +1,8 @@
+.profile__link-edit {
+  margin: 0;
+  justify-content: end;
+  align-content: end;
+  box-sizing: border-box;
+  align-self: end;
+  padding-left: 18px;
+}
