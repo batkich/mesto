@@ -9,3 +9,9 @@
   line-height: 114%;
   box-sizing: border-box;
 }
+
+@media all and (max-width: 700px) {
+  .profile__info-name {
+    font-size: 27px;
+  }
+}

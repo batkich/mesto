@@ -1,0 +1,6 @@
+.element__like {
+  margin: 0;
+  box-sizing: border-box;
+  max-width: 22px;
+  object-fit: contain;
+}

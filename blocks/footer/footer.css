@@ -1,4 +1,9 @@
 .footer {
   margin: 0;
   grid-area: footer;
+  display: flex;
+  justify-content: start;
+  align-content: center;
 }
+
+

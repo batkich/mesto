@@ -1,4 +1,5 @@
 .content {
   margin: 0;
   grid-area: content;
+  box-sizing: border-box;
 }

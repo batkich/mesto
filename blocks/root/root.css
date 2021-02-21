@@ -13,3 +13,9 @@
   ". content ."
   ". footer .";
 }
+
+@media screen and (max-width: 900px) {
+  .root {
+    grid-template-columns: 19px minmax(min-content, 880px) 19px;
+  }
+}
