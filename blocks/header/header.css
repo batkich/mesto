@@ -8,3 +8,10 @@
   padding-bottom: 36px;
   grid-area: header;
 }
+
+@media all and (max-width: 625px) {
+  .header {
+    padding-top: 28px;
+    padding-bottom: 38px;
+  }
+}

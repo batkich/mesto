@@ -4,7 +4,7 @@
   grid-column: 4/5;
   justify-self: end;
   width: 150px;
-  background-image: url(../../../images/Add\ Button.png);
+  background-image: url(../../../images/Add\ Button.svg);
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 50px;
@@ -24,6 +24,6 @@
     grid-row: 3/4;
     justify-self: center;
     width: 282px;
-    background-image: url(../../../images/Add\ Button-big.png);
+    background-image: url(../../../images/Add\ Button-big.svg);
   }
 }

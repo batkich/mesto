@@ -4,7 +4,7 @@
   width: 100%;
   background-color: #000;
   color: #fff;
-  font-family: Inter;
+  font-family: Inter, Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -16,6 +16,7 @@
   outline: none;
   cursor: pointer;
   border-radius: 2px;
+  margin-top: 18px;
 }
 
 .popup__save-button:hover {
@@ -23,8 +24,7 @@
 }
 
 @media all and (max-width: 625px) {
-  .popup__save-button{
-    padding-top: 14px;
+  .popup__save-button {
     padding-bottom: 14px;
     font-size: 14px;
     line-height: 17px;

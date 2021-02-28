@@ -6,7 +6,6 @@
 
 @media all and (max-width: 625px) {
   .profile__avatar {
-    grid-column: 1/2;
     grid-row: 1/2;
   }
 }

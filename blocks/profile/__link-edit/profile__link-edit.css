@@ -2,7 +2,7 @@
   margin: 0;
   grid-row: 1/2;
   grid-column: 2/3;
-  background-image: url(../../../images/Edit\ Button.png);
+  background-image: url(../../../images/Edit\ Button.svg);
   background-size: contain;
   background-repeat: no-repeat;
   width: 24px;
@@ -24,7 +24,7 @@
 
 @media all and (max-width: 700px) {
   .profile__link-edit {
-    background-image: url(../../../images/Edit\ Button-small.png);
+    background-image: url(../../../images/Edit\ Button-small.svg);
     width: 18px;
     background-position: center;
     padding-top: 50%;
