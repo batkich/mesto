@@ -4,7 +4,7 @@
 Также впервые реализована верстка формы.
 
 
-* [ССылка на работу](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
+* [ССылка на работу](https://batkich.github.io/mesto/index.html)
 
 **Планируемая работа в дальнейшем**
 
