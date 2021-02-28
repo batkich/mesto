@@ -3,3 +3,10 @@
   max-width: 142px;
   padding-bottom: 41px;
 }
+
+@media all and (max-width: 625px) {
+  .header__logo {
+    padding-left: 27px;
+    max-width: 103px;
+  }
+}

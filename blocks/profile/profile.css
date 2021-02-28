@@ -6,12 +6,13 @@
   grid-template-columns: repeat(2, minmax(min-content, max-content)) 1fr minmax(min-content, max-content);
   align-items: center;
   justify-content: start;
+  max-width: 880px;
 }
 
 @media all and (max-width: 625px) {
   .profile {
     grid-template-rows: repeat(2, minmax(min-content, max-content)) 1fr minmax(min-content, max-content);
-    grid-template-columns: minmax(min-content, max-content);
+    grid-template-columns: repeat(2, minmax(min-content, max-content));
     justify-items: center;
     justify-self: center;
   }

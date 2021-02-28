@@ -9,3 +9,10 @@
   padding-top: 67px;
   padding-bottom: 60px;
 }
+
+@media all and (max-width: 625px) {
+  .footer__text {
+    padding-top: 48px;
+    padding-bottom: 36px;
+  }
+}

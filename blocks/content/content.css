@@ -2,4 +2,10 @@
   margin: 0;
   grid-area: content;
   box-sizing: border-box;
+  padding: 0;
+  width: 100%;
+  max-width: 880px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
