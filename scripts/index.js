@@ -74,6 +74,7 @@ function allCards () {
   elementList.prepend(cardClone);
   cardName.textContent = initialCards[i].name;
   cardPicture.src = initialCards[i].link;
+  cardPicture.setAttribute('alt', cardName.textContent);
 }
 
 function cardArray() {
@@ -180,7 +181,7 @@ function createButtonPicture() {
     openPopupPicture();
     popupPicture.src = element.src;
     popupPictureTitle.textContent = element.nextElementSibling.firstElementChild.textContent;
-
+    popupPicture.setAttribute('alt', popupPictureTitle.textContent);
     });
     });
 }
