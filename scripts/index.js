@@ -24,7 +24,7 @@ function formSubmitHandler (evt) {
        evt.preventDefault();
        profileName.textContent = nameInput.value;
        profileInfo.textContent = jobInput.value;
-       closePopup()
+       closePopup();
 }
 
 formElement.addEventListener('submit', formSubmitHandler);
@@ -123,8 +123,6 @@ function addCard(evt) {
 
 cardForm.addEventListener('submit', addCard);
 
-
-
 function likeButtonActivate(element){
 element = cardClone.querySelector('.element__button');
 element.addEventListener('click', function (evt) {
@@ -132,7 +130,7 @@ element.addEventListener('click', function (evt) {
   ;})
   }
 
- function likeButtonActivate2() {
+ function likeButtonActivateinPage() {
    likeButton = document.querySelectorAll('.element__button');
    Array.from(likeButton).map(function(element){
     return element.addEventListener('click', function (evt) {
@@ -142,7 +140,7 @@ element.addEventListener('click', function (evt) {
  });
  }
 
- likeButtonActivate2();
+ likeButtonActivateinPage();
 
 function removeCard() {
    const deleteButton = document.querySelectorAll('.element__delete-button');
@@ -159,8 +157,8 @@ function removeCard() {
 let popupPictureBox = document.querySelector('.popup_type_picture');
 let pictureButton;
 let pictureTitle;
-let popupPictureTitle
-let popupPicture
+let popupPictureTitle;
+let popupPicture;
 
 function openPopupPicture() {
   popupPictureBox.classList.add('popup_opened');
@@ -172,7 +170,7 @@ function closePopupPicture() {
 
 closeButton[2].addEventListener ('click', closePopupPicture);
 
-function createButtonPicture () {
+function createButtonPicture() {
   pictureButton = document.querySelectorAll('.element__picture');
   pictureTitle = document.querySelectorAll('.element__title');
   popupPictureTitle = document.querySelector('.popup__title_type_picture');
@@ -183,8 +181,8 @@ function createButtonPicture () {
     popupPicture.src = element.src;
     popupPictureTitle.textContent = element.nextElementSibling.firstElementChild.textContent;
 
-    })
-    })
+    });
+    });
 }
 
 createButtonPicture ();
