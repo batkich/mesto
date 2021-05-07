@@ -56,9 +56,9 @@ const initialCards = [
   }
 ];
 
-let elementList = document.querySelector('.elements')
+const elementList = document.querySelector('.elements')
 const addButton = document.querySelector('.profile__link-add');
-let newCard = document.querySelector('#newcard').content;
+const newCard = document.querySelector('#newcard').content;
 let cardClone;
 let cardName;
 let cardPicture;
@@ -84,12 +84,12 @@ function cardArray() {
 
 cardArray();
 
-let popupCard = document.querySelector('.popup_type_card');
-let cardForm = document.querySelector('.popup__form_type_card');
-let newPlace = cardForm.elements.newplace;
-let newPicture = cardForm.elements.picture;
-let saveCardButton = document.querySelector('.popup__save-button_type_card');
-let firstCard = {
+const popupCard = document.querySelector('.popup_type_card');
+const cardForm = document.querySelector('.popup__form_type_card');
+const newPlace = cardForm.elements.newplace;
+const newPicture = cardForm.elements.picture;
+const saveCardButton = document.querySelector('.popup__save-button_type_card');
+const firstCard = {
   name: '',
   link: ''
 }
@@ -154,7 +154,7 @@ function removeCard() {
 
   removeCard();
 
-let popupPictureBox = document.querySelector('.popup_type_picture');
+const popupPictureBox = document.querySelector('.popup_type_picture');
 let pictureButton;
 let pictureTitle;
 let popupPictureTitle;
