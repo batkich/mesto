@@ -17,24 +17,26 @@
       <div class="header__line">
       </div>
     </header>
-    <div class="profile">
-      <img class="profile__avatar" src="./images/kusto.png" alt="Аватар профиля">
-      <div class="profile__info">
-        <h1 class="profile__info-name">Жак-Ив Кусто</h1>
-        <button type="button" class="profile__link-edit">
-        </button>
-        <p class="profile__info-text">Исследователь океана</p>
-      </div>
-      <button type="button" class="profile__link-add">
-      </button>
-    </div>
     <main class="content">
+      <section class="profile">
+        <img class="profile__avatar" src="./images/kusto.png" alt="Аватар профиля">
+        <div class="profile__info">
+          <h1 class="profile__info-name">Жак-Ив Кусто</h1>
+          <button type="button" class="profile__link-edit">
+          </button>
+          <p class="profile__info-text">Исследователь океана</p>
+        </div>
+        <button type="button" class="profile__link-add">
+        </button>
+      </section>
+      <!-- Здравствуйте, Анна! Не совсем понял ваши рекомендации по поводу попап и тэмплэйт (нужно размещать ниже по коду). Их нужно разместить под блоком футер?
+      Или перед самым закрывающим тегом body? -->
       <ul class="elements">
         <template id="newcard">
           <li class="element">
             <button type="button" class="element__delete-button">
             </button>
-            <img class="element__picture" src="">
+            <img class="element__picture" src="#" alt ="#">
             <div class="element__footer">
               <h2 class="element__title">
               </h2>
@@ -45,32 +47,32 @@
         </template>
       </ul>
     </main>
-    <div class="popup">
+    <div class="popup popup_type_profile">
       <div class="popup__container">
-        <button type="button" class="popup__close-icon"></button>
+        <button type="button" class="popup__close-icon popup__close-icon_type_profile"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="profile-form">
-             <input type="text" name="nickname" class="popup__input">
-            <input type="text" name="info" class="popup__input">
+        <form class="popup__form popup__form_type_profile" name="profile-form">
+            <input type="text" name="nickname" placeholder="Имя" class="popup__input" required>
+            <input type="text" name="info" placeholder="О себе" class="popup__input" required>
             <button type="submit" class="popup__save-button">Сохранить</button>
         </form>
       </div>
     </div>
     <div class="popup popup_type_card">
       <div class="popup__container">
-        <button type="button" class="popup__close-icon"></button>
+        <button type="button" class="popup__close-icon popup__close-icon_type_card"></button>
         <h2 class="popup__title">Новое место</h2>
         <form class="popup__form popup__form_type_card" name="card-form">
-            <input type="text" name="newplace" placeholder="Название" class="popup__input">
-            <input type="text" name="picture" placeholder="Ссылка на картинку" class="popup__input">
+            <input type="text" name="newplace" placeholder="Название" class="popup__input" required>
+            <input type="url" name="picture" placeholder="Ссылка на картинку" class="popup__input" required>
             <button type="submit" class="popup__save-button popup__save-button_type_card">Сохранить</button>
         </form>
       </div>
     </div>
     <div class="popup popup_type_picture">
       <div class="popup__container popup__container_type_picture">
-        <button type="button" class="popup__close-icon"></button>
-        <img src="" class="popup__picture">
+        <button type="button" class="popup__close-icon popup__close-icon_type_picture"></button>
+        <img class="popup__picture" src="#" alt ="#" >
         <h2 class="popup__title popup__title_type_picture"></h2>
       </div>
     </div>

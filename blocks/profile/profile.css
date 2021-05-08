@@ -1,6 +1,5 @@
 .profile {
   margin: 0;
-  grid-area: profile;
   display: grid;
   grid-template-rows: minmax(min-content, max-content);
   grid-template-columns: repeat(2, minmax(min-content, max-content)) 1fr minmax(min-content, max-content);

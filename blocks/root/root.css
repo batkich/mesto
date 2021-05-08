@@ -8,12 +8,11 @@
   color: #fff;
   position: relative;
   align-items: center;
-  grid-template-rows: repeat(4, minmax(min-content, max-content));
+  grid-template-rows: repeat(3, minmax(min-content, max-content));
   grid-template-columns: 1fr minmax(min-content, 880px) 1fr;
   justify-content: center;
   grid-template-areas:
   ". header ."
-  ". profile ."
   ". content ."
   ". footer .";
 }
@@ -28,7 +27,6 @@
   .root {
     grid-template-areas:
     "header header header"
-    ". profile ."
     ". content ."
     ". footer .";
   }
