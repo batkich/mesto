@@ -9,11 +9,24 @@
   line-height: 114%;
   box-sizing: border-box;
   padding-right: 25px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 400px;
+}
+
+@media all and (max-width: 770px) {
+  .profile__info-name {
+    font-size: 27px;
+    padding-right: 10px;
+    max-width: 300px;
+  }
 }
 
 @media all and (max-width: 700px) {
   .profile__info-name {
     font-size: 27px;
     padding-right: 10px;
+    max-width: 250px;
   }
 }
