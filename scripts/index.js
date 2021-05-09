@@ -6,25 +6,18 @@ const pictureCloseButton = document.querySelector('.popup__close-icon_type_pictu
 const profileName = document.querySelector('.profile__info-name');
 const profileInfo = document.querySelector('.profile__info-text');
 const profileFormElement = document.querySelector('.popup__form_type_profile');
-nameInput = profileFormElement.elements.nickname;
-jobInput = profileFormElement.elements.info;
+const nameInput = profileFormElement.elements.nickname;
+const jobInput = profileFormElement.elements.info;
 const popupCard = document.querySelector('.popup_type_card');
 const cardForm = document.querySelector('.popup__form_type_card');
 const newPlace = cardForm.elements.newplace;
 const newPicture = cardForm.elements.picture;
-const saveCardButton = document.querySelector('.popup__save-button_type_card');
-const firstCard = {
-   name: '',
-   link: ''
- }
 const elementList = document.querySelector('.elements')
 const addButton = document.querySelector('.profile__link-add');
 const newCard = document.querySelector('#newcard').content;
 const popupPictureBox = document.querySelector('.popup_type_picture');
 const popupPictureTitle = document.querySelector('.popup__title_type_picture');
 const popupPicture = document.querySelector('.popup__picture');
-let pictureButton;
-let pictureTitle;
 const initialCards = [
   {
     name: 'Сочи',
@@ -55,12 +48,10 @@ const initialCards = [
  function getProfileValue() {
      nameInput.value = profileName.textContent;
      jobInput.value = profileInfo.textContent;
-     return;
  }
 
  function openPopup(item) {
   item.classList.add('popup_opened');
-  return;
 }
 
 function closePopup(item) {
@@ -74,67 +65,57 @@ function closePopup(item) {
   closePopup(popupProfile);
 }
 
-function createCardsonPage() {
-  for(i = 0; i<initialCards.length; i = i + 1) {
-   createCard();
+ function createCard (cardData) {
+   const element = newCard.querySelector('.element').cloneNode(true);
+   const cardName = element.querySelector('.element__title');
+   const cardPicture = element.querySelector('.element__picture');
+   cardName.textContent = cardData.name;
+   cardPicture.src = cardData.link;
+   cardPicture.alt = cardData.name;
+   const likeButton = element.querySelector('.element__button');
+   likeButton.addEventListener('click', function (evt) {
+              evt.target.classList.toggle('element__button_type_active');
+});
+   const deleteButton = element.querySelector('.element__delete-button');
+   deleteButton.addEventListener('click', function (evt) {
+    evt.target.closest('.element').remove();
+});
+   cardPicture.addEventListener('click', function(){createButtonPicture(cardData)
+  });
+   return element;
  }
- }
 
- function createCard (element) {
-  const cardClone = newCard.querySelector('.element').cloneNode(true);
-  const cardName = cardClone.querySelector('.element__title');
-  const cardPicture = cardClone.querySelector('.element__picture');
-  elementList.prepend(cardClone);
-  cardName.textContent = initialCards[i].name;
-  cardPicture.src = initialCards[i].link;
-  cardPicture.setAttribute('alt', cardName.textContent);
-  element = cardClone.querySelector('.element__button');
-  element.addEventListener('click', function (evt) {
-       evt.target.classList.toggle('element__button_type_active');
-  ;});
-  const deleteButton = document.querySelectorAll('.element__delete-button');
-   deleteButton.forEach(function(element) {
-   element.addEventListener('click', function(){
-    const deleteCard = element.closest('.element');
-    deleteCard.remove();
-   });
-   });
+ initialCards.forEach((data) => {
+  addCard(elementList, data);
+});
+
+  function addCard(container, data) {
+    container.prepend(createCard(data));
+  }
+
+  function handleAddCard(evt) {
+    evt.preventDefault();
+    addCard(elementList, {name: newPlace.value, link: newPicture.value});
+    newPlace.value = '';
+    newPicture.value = '';
+    closePopup(popupCard);
 }
 
-function handleAddCard(evt) {
-  evt.preventDefault();
-  initialCards.splice(0, Infinity);
-  initialCards.unshift(firstCard);
-  initialCards[0].name = newPlace.value;
-  initialCards[0].link = newPicture.value;
-  createCardsonPage();
-  closePopup(popupCard);
-  createButtonPicture();
-  newPlace.value = '';
-  newPicture.value = '';
-}
+  function createButtonPicture(cardData) {
+      popupPicture.src = cardData.link;
+      popupPictureTitle.textContent = cardData.name;
+      popupPicture.alt = cardData.name;
+      openPopup(popupPictureBox);
+    }
 
-function createButtonPicture() {
-  pictureButton = document.querySelectorAll('.element__picture');
-  pictureTitle = document.querySelectorAll('.element__title');
-  pictureButton.forEach(function(element) {
-    element.addEventListener('click', function(){
-    openPopup(popupPictureBox);
-    popupPicture.src = element.src;
-    popupPictureTitle.textContent = element.closest('.element').querySelector('.element__title').textContent;
-    popupPicture.setAttribute('alt', popupPictureTitle.textContent);
-    });
-    });
-}
+  pictureCloseButton.addEventListener ('click', ()=> closePopup(popupPictureBox));
+  editButton.addEventListener ('click', ()=> openPopup(popupProfile));
+  profileCloseButton.addEventListener ('click', ()=> closePopup(popupProfile));
+  profileFormElement.addEventListener('submit', handleProfileFormSubmit);
+  cardCloseButton.addEventListener ('click', ()=> closePopup(popupCard));
+  addButton.addEventListener('click', ()=> openPopup(popupCard));
+  cardForm.addEventListener('submit', handleAddCard);
 
-getProfileValue();
-createCardsonPage();
-createButtonPicture ();
-
-pictureCloseButton.addEventListener ('click', ()=> closePopup(popupPictureBox));
-editButton.addEventListener ('click', ()=> openPopup(popupProfile));
-profileCloseButton.addEventListener ('click', ()=> closePopup(popupProfile));
-profileFormElement.addEventListener('submit', handleProfileFormSubmit);
-cardCloseButton.addEventListener ('click', ()=> closePopup(popupCard));
-addButton.addEventListener('click', ()=> openPopup(popupCard));
-cardForm.addEventListener('submit', handleAddCard);
+// Анна, спасибо за проделанную работу (очень подробное разьяснение логики работы скрипта.) После разъяснений понял "в общем смысле" как должно все работать и то,
+// что в моем первоначальном варианте я ушел куда то в "дебри". Так конечно код получился куда компактнее. Но к сожалению написание логики работы функций с аргументами
+// и их понимание вызывает у меня еще некоторые трудности (надеюсь, что пока :) ), поэтому может еще где то и "накосячил".
