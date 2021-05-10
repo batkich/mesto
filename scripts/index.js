@@ -109,7 +109,10 @@ function closePopup(item) {
     }
 
   pictureCloseButton.addEventListener ('click', ()=> closePopup(popupPictureBox));
-  editButton.addEventListener ('click', ()=> openPopup(popupProfile));
+  editButton.addEventListener ('click', ()=> {
+    openPopup(popupProfile);
+    getProfileValue();
+  });
   profileCloseButton.addEventListener ('click', ()=> closePopup(popupProfile));
   profileFormElement.addEventListener('submit', handleProfileFormSubmit);
   cardCloseButton.addEventListener ('click', ()=> closePopup(popupCard));
