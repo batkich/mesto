@@ -108,6 +108,31 @@ function closePopup(item) {
       openPopup(popupPictureBox);
     }
 
+    function closePopupOverlay() {
+      const popupArray = Array.from(document.querySelectorAll('.popup'));
+      popupArray.forEach(function (popup) {
+        popup.addEventListener('click', (evt) => {
+          if (evt.target.classList.contains('popup')) {
+            closePopup(popup);
+          }
+        });
+      });
+    }
+
+     function closePopupEsc() {
+       const popupArray = Array.from(document.querySelectorAll('.popup'));
+       popupArray.forEach(function (popup) {
+        document.addEventListener('keydown', (evt) => {
+           if (evt.key === "Escape") {
+             closePopup(popup);
+           }
+         });
+       });
+     }
+
+    closePopupOverlay();
+    closePopupEsc();
+
   pictureCloseButton.addEventListener ('click', ()=> closePopup(popupPictureBox));
   editButton.addEventListener ('click', ()=> {
     openPopup(popupProfile);
@@ -119,6 +144,9 @@ function closePopup(item) {
   addButton.addEventListener('click', ()=> openPopup(popupCard));
   cardForm.addEventListener('submit', handleAddCard);
 
-// Анна, спасибо за проделанную работу (очень подробное разьяснение логики работы скрипта.) После разъяснений понял "в общем смысле" как должно все работать и то,
-// что в моем первоначальном варианте я ушел куда то в "дебри". Так конечно код получился куда компактнее. Но к сожалению написание логики работы функций с аргументами
-// и их понимание вызывает у меня еще некоторые трудности (надеюсь, что пока :) ), поэтому может еще где то и "накосячил".
+
+
+
+
+
+
