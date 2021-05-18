@@ -1,33 +1,33 @@
 
-function showInputError (popupElement, popupInput, errorMessage) {
-  const errorElement = popupElement.querySelector(`.${popupInput.id}-error`);
-  popupInput.classList.add('popup__input_type_error');
+function showInputError (formSelector, inputSelector, errorMessage) {
+  const errorElement = formSelector.querySelector(`.${inputSelector.id}-error`);
+  inputSelector.classList.add('popup__input_type_error');
   errorElement.classList.add('popup__input-error_type_active');
   errorElement.textContent = errorMessage;
 }
 
-function hideInputError (popupElement, popupInput) {
-  const errorElement = popupElement.querySelector(`.${popupInput.id}-error`);
-  popupInput.classList.remove('popup__input_type_error');
+function hideInputError (formSelector, inputSelector) {
+  const errorElement = formSelector.querySelector(`.${inputSelector.id}-error`);
+  inputSelector.classList.remove('popup__input_type_error');
   errorElement.classList.add('popup__input-error_type_active');
   errorElement.textContent = '';
 }
 
-function isValid (popupElement, popupInput) {
-  if (!popupInput.validity.valid) {
-    showInputError(popupElement, popupInput, popupInput.validationMessage);
+function isValid (formSelector, inputSelector) {
+  if (!inputSelector.validity.valid) {
+    showInputError(formSelector, inputSelector, inputSelector.validationMessage);
   } else {
-    hideInputError(popupElement, popupInput);
+    hideInputError(formSelector, inputSelector);
   }
 }
 
-function setEventListeners (popupElement) {
-  const inputList = Array.from(popupElement.querySelectorAll('.popup__input'));
-  const submitButtonSelector = popupElement.querySelector('.popup__button');
+function setEventListeners (formSelector) {
+  const inputList = Array.from(formSelector.querySelectorAll('.popup__input'));
+  const submitButtonSelector = formSelector.querySelector('.popup__button');
   toogleSaveButton (inputList, submitButtonSelector);
-  inputList.forEach(function (popupInput) {
-    popupInput.addEventListener('input', () =>{
-      isValid(popupElement, popupInput);
+  inputList.forEach(function (inputSelector) {
+    inputSelector.addEventListener('input', () =>{
+      isValid(formSelector, inputSelector);
       toogleSaveButton (inputList, submitButtonSelector);
     });
   });
@@ -49,13 +49,13 @@ function toogleSaveButton (inputList, submitButtonSelector) {
   }
 }
 
-function formSearch() {
+function enableValidation() {
   const popupList = Array.from(document.querySelectorAll('.popup__form'));
-  popupList.forEach(function (popupElement) {
-    popupElement.addEventListener('submit', (evt) => {
+  popupList.forEach(function (formSelector) {
+    formSelector.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
-    setEventListeners (popupElement);
+    setEventListeners (formSelector);
   })
 }
 
@@ -68,6 +68,5 @@ enableValidation({
   errorClass: 'popup__error_visible'
 });
 
-formSearch();
 
 
