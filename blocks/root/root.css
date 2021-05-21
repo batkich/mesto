@@ -11,6 +11,7 @@
   grid-template-rows: repeat(3, minmax(min-content, max-content));
   grid-template-columns: 1fr minmax(min-content, 880px) 1fr;
   justify-content: center;
+  min-height: 1024px;
   grid-template-areas:
   ". header ."
   ". content ."
