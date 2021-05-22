@@ -1,8 +1,5 @@
 const popupProfile = document.querySelector('.popup_type_profile');
 const editButton = document.querySelector('.profile__link-edit');
-const profileCloseButton = document.querySelector('.popup__close-icon_type_profile');
-const cardCloseButton = document.querySelector('.popup__close-icon_type_card');
-const pictureCloseButton = document.querySelector('.popup__close-icon_type_picture');
 const profileName = document.querySelector('.profile__info-name');
 const profileInfo = document.querySelector('.profile__info-text');
 const profileFormElement = document.querySelector('.popup__form_type_profile');
@@ -52,11 +49,25 @@ const initialCards = [
 
  function openPopup(item) {
   item.classList.add('popup_opened');
+     document.addEventListener('keydown', (evt) => {
+      if (evt.key === "Escape") {
+        closePopup(item);
+    }
+  });
 }
+
+// По функциям openPopup и closePopup надеюсь правильно понял (о добавлении события нажатия клавиши Esc (удалил функцию и ее вызов из файла совсем)).
+// Дело в том что в прошлом спринте код-ревью сказала убрать все лишнее (если конкретно, то убрать все кроме строки добавления класса попапу)
+// из этих функций и сделать из лишнего отдельные функции.
 
 function closePopup(item) {
   item.classList.remove('popup_opened');
- }
+  document.removeEventListener('keydown', (evt) => {
+    if (evt.key === "Escape") {
+      closePopup(item);
+   }
+  });
+}
 
  function handleProfileFormSubmit (evt) {
   evt.preventDefault();
@@ -96,8 +107,9 @@ function closePopup(item) {
   function handleAddCard(evt) {
     evt.preventDefault();
     addCard(elementList, {name: newPlace.value, link: newPicture.value});
-    newPlace.value = '';
-    newPicture.value = '';
+    cardForm.reset();
+    // В какой-то из попыток "победить" JavaScript я воспользовался методом reset, но потом видимо, после того как стирал все раз 50 и писал подругому, стер и этот метод,
+    // вернувшись на исходную точку. И в итоге забыл про эти строки, поэтому 'сорри', все поправил.
     closePopup(popupCard);
 }
 
@@ -112,23 +124,12 @@ function closePopup(item) {
       const popupArray = Array.from(document.querySelectorAll('.popup'));
       popupArray.forEach(function (popup) {
         popup.addEventListener('click', (evt) => {
-          if (evt.target.classList.contains('popup')) {
+          if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-icon')) {
             closePopup(popup);
           }
         });
       });
     }
-
-     function closePopupEsc() {
-       const popupArray = Array.from(document.querySelectorAll('.popup'));
-       popupArray.forEach(function (popup) {
-        document.addEventListener('keydown', (evt) => {
-           if (evt.key === "Escape") {
-             closePopup(popup);
-           }
-         });
-       });
-     }
 
      function clearPopupError (item) {
    const error = item.querySelectorAll('.popup__error');
@@ -137,34 +138,33 @@ function closePopup(item) {
    })
  }
 
-    closePopupOverlay();
-    closePopupEsc();
+     function resetSaveButton (item) {
+       const saveButton = item.querySelector('button[type="submit"]');
+       if (!saveButton.hasAttribute('disabled')){
+       saveButton.classList.add('popup__button_disabled');
+       saveButton.setAttribute('disabled', 'disabled');
+      }
+     }
 
-  pictureCloseButton.addEventListener ('click', () => closePopup(popupPictureBox));
+    closePopupOverlay();
+
   editButton.addEventListener ('click', () => {
     openPopup(popupProfile);
     clearPopupError (popupProfile);
     getProfileValue();
   });
-  profileCloseButton.addEventListener ('click', () => closePopup(popupProfile));
   profileFormElement.addEventListener('submit', handleProfileFormSubmit);
-  cardCloseButton.addEventListener ('click', () => closePopup(popupCard));
   addButton.addEventListener('click', () => {
     openPopup(popupCard);
-    enableValidation({
-      formSelector: '.popup__form',
-      inputSelector: '.popup__input',
-      submitButtonSelector: '.popup__button',
-      inactiveButtonClass: 'popup__button_disabled',
-      inputErrorClass: 'popup__input_type_error',
-      errorClass: 'popup__error_visible'
-    });
+    resetSaveButton (popupCard)
   });
   cardForm.addEventListener('submit', handleAddCard);
 
-
-
-
-
-
-
+  enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+  });
