@@ -18,7 +18,7 @@ export class FormValidator {
    _hideInputError(item) {
     const errorElement = this._formSelector.querySelector(`.${item.id}-error`);
     item.classList.remove(this._inputErrorClass);
-    errorElement.classList.add(this._errorClass);
+    errorElement.classList.remove(this._errorClass);
     errorElement.textContent = '';
    }
 
@@ -46,6 +46,17 @@ export class FormValidator {
      }
    }
 
+    _clearPopupError () {
+     const error = this._formSelector.querySelectorAll('.popup__error');
+     const errorLine = this._formSelector.querySelectorAll('.popup__input');
+     error.forEach(function (element) {
+         element.classList.remove('popup__error_visible')
+     });
+     errorLine.forEach(function (element) {
+      element.classList.remove('popup__input_type_error')
+  });
+   }
+
    _setEventListeners () {
      const inputList = this._formSelector.querySelectorAll(this._inputSelector);
      const submitButtonSelector = this._formSelector.querySelector(this._submitButtonSelector);
@@ -65,6 +76,7 @@ export class FormValidator {
          evt.preventDefault();
        });
         this._setEventListeners ();
+        this._clearPopupError ();
    }
 }
 

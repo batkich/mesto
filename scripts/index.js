@@ -53,17 +53,25 @@ const initialCards = [
 export function openPopup(item) {
   item.classList.add('popup_opened');
      document.addEventListener('keydown', handlePressEsc);
-     if(item === popupProfile || item === popupCard) {
-       const validation = new FormValidator ({
-      inputSelector: '.popup__input',
-      submitButtonSelector: '.popup__button',
-      inactiveButtonClass: 'popup__button_disabled',
-      inputErrorClass: 'popup__input_type_error',
-      errorClass: 'popup__error_visible'
-    }, item);
-    validation.enableValidation();
- }
 }
+
+// Максим, здравствуйте. Не один десяток раз вчитывался в ваш комментарий - совет (как уйти от добавления дополнительных условий if.)
+// Но так и непонял, что требуется сделать. При вынесении const validation в глобальную область, я теряю 'ссылку' на открытый попап (использовал item).
+// Решил уйти от if  таким образом (хотя получилось почти тоже самое)...:
+
+function openPopupWithValidation (item) {
+  openPopup(item);
+  const validation = new FormValidator ({
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+  }, item);
+  validation.enableValidation();
+}
+
+
 function closePopup(item) {
   item.classList.remove('popup_opened');
   document.removeEventListener('keydown', handlePressEsc);
@@ -86,21 +94,6 @@ function closePopup(item) {
         });
       });
     }
-
-     function clearPopupError (item) {
-   const error = item.querySelectorAll('.popup__error');
-   error.forEach(function (element){
-       element.classList.remove('popup__error_visible')
-   });
- }
-
-     function resetSaveButton (item) {
-       const saveButton = item.querySelector('button[type="submit"]');
-       if (!saveButton.hasAttribute('disabled')){
-       saveButton.classList.add('popup__button_disabled');
-       saveButton.setAttribute('disabled', 'disabled');
-      }
-     }
 
      function handlePressEsc(evt) {
       if (evt.key === "Escape") {
@@ -130,12 +123,10 @@ function handleAddCard (evt) {
 cardForm.addEventListener('submit', handleAddCard);
 
 editButton.addEventListener ('click', () => {
-  openPopup(popupProfile);
-  clearPopupError (popupProfile);
+  openPopupWithValidation (popupProfile);
   getProfileValue();
 });
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 addButton.addEventListener('click', () => {
-  openPopup(popupCard);
-  resetSaveButton (popupCard)
+  openPopupWithValidation (popupCard);
 });

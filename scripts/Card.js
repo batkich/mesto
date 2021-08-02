@@ -18,19 +18,27 @@ export class Card {
 
   generateCard() {
     this._element = this._getCard();
-    this._element.querySelector('.element__picture').setAttribute('src', this._cardPicture);
+    const picture = this._element.querySelector('.element__picture')
+    picture.setAttribute('src', this._cardPicture);
+    picture.setAttribute('alt', this._cardName);
     this._element.querySelector('.element__title').textContent = this._cardName;
     this._setEventListeners();
     return this._element;
   }
 
-  _setEventListeners() {
+  _deleteListener() {
     this._element.querySelector('.element__delete-button').addEventListener('click', () => {
       this._element.remove();
     });
+  }
+
+  _likeListener(){
     this._element.querySelector('.element__button').addEventListener('click', () => {
       this._element.querySelector('.element__button').classList.toggle('element__button_type_active');
     });
+  }
+
+  _pictureListener(){
     this._element.querySelector('.element__picture').addEventListener('click', () => {
       popupPicture.setAttribute('src', this._cardPicture);
       popupPicture.setAttribute('alt', this._cardName);
@@ -39,4 +47,9 @@ export class Card {
     });
   }
 
+  _setEventListeners() {
+    this._deleteListener();
+    this._likeListener();
+    this._pictureListener();
+  }
 }
