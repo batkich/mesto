@@ -12,9 +12,7 @@ const popupCard = document.querySelector('.popup_type_card');
 const cardForm = document.querySelector('.popup__form_type_card');
 const newPlace = cardForm.elements.newplace;
 const newPicture = cardForm.elements.picture;
-const elementList = document.querySelector('.elements')
 const addButton = document.querySelector('.profile__link-add');
-const newCard = document.querySelector('#newcard').content;
 export const popupPictureBox = document.querySelector('.popup_type_picture');
 export const popupPictureTitle = document.querySelector('.popup__title_type_picture');
 export const popupPicture = document.querySelector('.popup__picture');
@@ -45,6 +43,14 @@ const initialCards = [
   }
 ];
 
+const validationSettings = {
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible',
+}
+
  function getProfileValue() {
      nameInput.value = profileName.textContent;
      jobInput.value = profileInfo.textContent;
@@ -55,22 +61,15 @@ export function openPopup(item) {
      document.addEventListener('keydown', handlePressEsc);
 }
 
-// Максим, здравствуйте. Не один десяток раз вчитывался в ваш комментарий - совет (как уйти от добавления дополнительных условий if.)
-// Но так и непонял, что требуется сделать. При вынесении const validation в глобальную область, я теряю 'ссылку' на открытый попап (использовал item).
-// Решил уйти от if  таким образом (хотя получилось почти тоже самое)...:
-
 function openPopupWithValidation (item) {
   openPopup(item);
-  const validation = new FormValidator ({
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-  }, item);
+  const validation = new FormValidator (validationSettings, item);
   validation.enableValidation();
 }
 
+// Максим, спасибо за подробные объяснения. В общих чертах понял предложенный способ реализации валидации для каждого Попапа отдельно.
+// Но решил не ломать код (и в итоге не доламывать свою голову)). Поправил свою реализацию.
+// Добавил еще функцию (не понял, нужно исправлять баг или нет) clearInputsPopupCards для очистки input-ов формы добавления карточки. Надеюсь не будет лишней.
 
 function closePopup(item) {
   item.classList.remove('popup_opened');
@@ -120,6 +119,13 @@ function handleAddCard (evt) {
   document.querySelector('.elements').prepend(cardElement);
 }
 
+function clearInputsPopupCards (item) {
+  const errorContent = item.querySelectorAll('.popup__input');
+  errorContent.forEach((element) => {
+    element.value = '';
+  });
+}
+
 cardForm.addEventListener('submit', handleAddCard);
 
 editButton.addEventListener ('click', () => {
@@ -127,6 +133,8 @@ editButton.addEventListener ('click', () => {
   getProfileValue();
 });
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
+
 addButton.addEventListener('click', () => {
   openPopupWithValidation (popupCard);
+  clearInputsPopupCards (popupCard);
 });
