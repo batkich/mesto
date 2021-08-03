@@ -49,11 +49,13 @@ export class FormValidator {
     _clearPopupError () {
      const error = this._formSelector.querySelectorAll('.popup__error');
      const errorLine = this._formSelector.querySelectorAll('.popup__input');
+     const errorClass = this._errorClass;
+     const inputError = this._inputErrorClass;
      error.forEach(function (element) {
-         element.classList.remove('popup__error_visible')
+         element.classList.remove(errorClass);
      });
      errorLine.forEach(function (element) {
-      element.classList.remove('popup__input_type_error')
+      element.classList.remove(inputError);
   });
    }
 
