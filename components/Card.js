@@ -1,10 +1,9 @@
-import { popupPictureBox, popupPictureTitle, popupPicture, openPopup } from './index.js';
-
 export class Card {
-  constructor (data, cardSelector) {
+  constructor (data, cardSelector, {handleCardClick}) {
     this._cardName = data.name;
     this._cardPicture = data.link;
     this._cardSelector = cardSelector;
+    this.handleCardClick = handleCardClick;
   }
 
   _getCard() {
@@ -40,10 +39,9 @@ export class Card {
 
   _pictureListener(){
     this._element.querySelector('.element__picture').addEventListener('click', () => {
-      popupPicture.setAttribute('src', this._cardPicture);
-      popupPicture.setAttribute('alt', this._cardName);
-      popupPictureTitle.textContent = this._cardName;
-      openPopup(popupPictureBox);
+      const pictureName = this._cardName;
+      const pictureLink = this._cardPicture;
+      this.handleCardClick({pictureName, pictureLink});
     });
   }
 
