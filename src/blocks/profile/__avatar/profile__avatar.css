@@ -1,0 +1,11 @@
+.profile__avatar {
+  margin: 0;
+  border-radius: 100px;
+  grid-column: 1/2;
+}
+
+@media all and (max-width: 625px) {
+  .profile__avatar {
+    grid-row: 1/2;
+  }
+}
