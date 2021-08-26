@@ -1,56 +1,87 @@
-import './index.css';
-import { editButton, addButton, initialCards, popupProfile, popupCard, profileName, profileInfo, nameInput, jobInput, newPlace, newPicture,
-container, validationSettings, popupPictureBox} from '../utils/constants.js';
-import { Card } from '../components/Card.js';
-import { UserInfo } from '../components/UserInfo.js';
-import { Section } from '../components/Section.js';
-import { FormValidator } from '../components/FormValidator.js';
-import { PopupWithImage } from '../components/PopupWithImage.js';
-import { PopupWithForm } from '../components/PopupWithForm.js';
+import "./index.css";
+import {
+  editButton,
+  addButton,
+  initialCards,
+  popupProfile,
+  popupCard,
+  profileName,
+  profileInfo,
+  nameInput,
+  jobInput,
+  container,
+  validationSettings,
+  popupPictureBox,
+} from "../utils/constants.js";
+import { UserInfo } from "../components/UserInfo.js";
+import { Section } from "../components/Section.js";
+import { FormValidator } from "../components/FormValidator.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
+import { PopupWithForm } from "../components/PopupWithForm.js";
+import { createNewCard } from "../utils/utils";
 
-const contentBox = new Section ({items: initialCards, renderer: (item) => {
-    const card = new Card(item, '#newcard', {handleCardClick: (element) =>{
-      const newPopupImage = new PopupWithImage (popupPictureBox);
-      newPopupImage.open(element);
-    }});
-    const cardElement = card.generateCard();
-    contentBox.additem(cardElement);
-  }}, container);
+export const newPopupImage = new PopupWithImage(popupPictureBox);
 
-  contentBox.renderItems();
+const validationPopupCard = new FormValidator(validationSettings, popupCard);
+validationPopupCard.enableValidation();
 
-  const profile = new UserInfo ({profileName, profileInfo});
-  profile.name = profileName.textContent;
-  profile.job = profileInfo.textContent;
-  const userdata = profile.getUserInfo();
-  nameInput.value = userdata.name;
-  jobInput.value = userdata.job;
+const validationPopupProfile = new FormValidator(
+  validationSettings,
+  popupProfile
+);
+validationPopupProfile.enableValidation();
 
-  const popupForm = new PopupWithForm (popupProfile, {addInfo: (evt) => {
-    evt.preventDefault();
-    profile.setUserInfo(popupForm);
-    popupForm.close();
-  }});
+const contentBox = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => {
+      const card = createNewCard(item);
+      const cardElement = card.generateCard();
+      contentBox.additem(cardElement);
+    },
+  },
+  container
+);
 
-  const popupAddCard = new PopupWithForm (popupCard, {addInfo: (evt) => {
-    evt.preventDefault();
-    const newPlaceValue = newPlace.value;
-    const newPictureValue = newPicture.value;
-    const newCard = new Card({name: newPlaceValue, link: newPictureValue}, '#newcard', {handleCardClick: (element) =>{
-      const newPopupImage = new PopupWithImage (popupPictureBox);
-      newPopupImage.open(element);
-    }});
-    const cardElement = newCard.generateCard();
-    document.querySelector('.elements').prepend(cardElement);
-    popupAddCard.close();
-  }});
+contentBox.renderItems();
 
-  editButton.addEventListener ('click', () => {popupForm.open();
-    const validation = new FormValidator (validationSettings,  popupProfile);
-    validation.enableValidation();
+const profile = new UserInfo({ profileName, profileInfo });
+
+const popupForm = new PopupWithForm(popupProfile, {
+  addInfo: (item) => {
+    profile.setUserInfo(item);
+  },
 });
 
-addButton.addEventListener('click', () => {popupAddCard.open();
-  const validation = new FormValidator (validationSettings,  popupCard);
-  validation.enableValidation();
+popupForm.setEventListeners();
+
+const popupAddCard = new PopupWithForm(popupCard, {
+  addInfo: (item) => {
+    const newDataCard = {};
+    newDataCard.name = item.newplace;
+    newDataCard.link = item.picture;
+    const card = createNewCard(newDataCard);
+    const cardElement = card.generateCard();
+    contentBox.additem(cardElement);
+    // validationPopupCard.toogleSaveButton();
+  },
+});
+
+popupAddCard.setEventListeners();
+
+editButton.addEventListener("click", () => {
+  popupForm.open();
+  const profileData = profile.getUserInfo();
+  nameInput.value = profileData.nickname;
+  jobInput.value = profileData.info;
+});
+
+addButton.addEventListener("click", () => {
+  popupCard
+    .querySelector(".popup__button")
+    .setAttribute("disabled", "disabled");
+  popupCard
+    .querySelector(".popup__button")
+    .classList.add("popup__button_disabled");
+  popupAddCard.open();
 });

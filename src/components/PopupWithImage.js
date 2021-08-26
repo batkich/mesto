@@ -1,17 +1,17 @@
 import { Popup } from "./Popup.js";
-import { popupPicture } from "../utils/constants.js";
-import { popupPictureTitle } from "../utils/constants.js";
 
 export class PopupWithImage extends Popup {
-  constructor (formSelector) {
-    super(formSelector);
+  constructor(popup) {
+    super(popup);
+    this.form = this._popup.querySelector(".popup__picture");
+    this.formTitle = this._popup.querySelector(".popup__title_type_picture");
   }
 
-  open({pictureName, pictureLink}) {
-    popupPicture.setAttribute('src', pictureLink);
-    popupPicture.setAttribute('alt', pictureName);
-    popupPictureTitle.textContent = pictureName;
+  open({ pictureName, pictureLink }) {
+    super.setEventListeners();
+    this.form.setAttribute("src", pictureLink);
+    this.form.setAttribute("alt", pictureName);
+    this.formTitle.textContent = pictureName;
     super.open();
   }
-
 }

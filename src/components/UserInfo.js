@@ -1,21 +1,18 @@
-import {profileName, profileInfo} from '../utils/constants.js';
-
 export class UserInfo {
-  constructor (data) {
-    this.name = data.name;
-    this.job = data.job;
+  constructor({ profileName, profileInfo }) {
+    this.name = profileName;
+    this.info = profileInfo;
   }
 
   getUserInfo() {
     const userdata = {};
-    userdata.name = this.name;
-    userdata.job = this.job;
+    userdata.nickname = this.name.textContent;
+    userdata.info = this.info.textContent;
     return userdata;
   }
 
   setUserInfo(item) {
-    const newUserData = item._getInputValues();
-    profileName.textContent = newUserData.nickname;
-    profileInfo.textContent = newUserData.info;
+    this.name.textContent = item.nickname;
+    this.info.textContent = item.info;
   }
 }
