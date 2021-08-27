@@ -10,6 +10,10 @@ export class Section {
   }
 
   additem(element) {
+    this._container.append(element);
+  }
+
+  additemUp(element) {
     this._container.prepend(element);
   }
 }

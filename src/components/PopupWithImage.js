@@ -8,7 +8,6 @@ export class PopupWithImage extends Popup {
   }
 
   open({ pictureName, pictureLink }) {
-    super.setEventListeners();
     this.form.setAttribute("src", pictureLink);
     this.form.setAttribute("alt", pictureName);
     this.formTitle.textContent = pictureName;

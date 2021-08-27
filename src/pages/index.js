@@ -12,22 +12,34 @@ import {
   container,
   validationSettings,
   popupPictureBox,
+  profileFormElement,
+  cardForm,
 } from "../utils/constants.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { Section } from "../components/Section.js";
 import { FormValidator } from "../components/FormValidator.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
-import { createNewCard } from "../utils/utils";
+import { Card } from "../components/Card.js";
 
-export const newPopupImage = new PopupWithImage(popupPictureBox);
+const newPopupImage = new PopupWithImage(popupPictureBox);
+newPopupImage.setEventListeners();
 
-const validationPopupCard = new FormValidator(validationSettings, popupCard);
+function createNewCard(item) {
+  const card = new Card(item, "#newcard", {
+    handleCardClick: (element) => {
+      newPopupImage.open(element);
+    },
+  });
+  return card;
+}
+
+const validationPopupCard = new FormValidator(validationSettings, cardForm);
 validationPopupCard.enableValidation();
 
 const validationPopupProfile = new FormValidator(
   validationSettings,
-  popupProfile
+  profileFormElement
 );
 validationPopupProfile.enableValidation();
 
@@ -62,8 +74,8 @@ const popupAddCard = new PopupWithForm(popupCard, {
     newDataCard.link = item.picture;
     const card = createNewCard(newDataCard);
     const cardElement = card.generateCard();
-    contentBox.additem(cardElement);
-    // validationPopupCard.toogleSaveButton();
+    contentBox.additemUp
+    (cardElement);
   },
 });
 
@@ -74,14 +86,11 @@ editButton.addEventListener("click", () => {
   const profileData = profile.getUserInfo();
   nameInput.value = profileData.nickname;
   jobInput.value = profileData.info;
+  validationPopupProfile.clearPopupError();
 });
 
 addButton.addEventListener("click", () => {
-  popupCard
-    .querySelector(".popup__button")
-    .setAttribute("disabled", "disabled");
-  popupCard
-    .querySelector(".popup__button")
-    .classList.add("popup__button_disabled");
+  validationPopupCard.toogleSaveButton();
+  validationPopupCard.clearPopupError();
   popupAddCard.open();
 });
