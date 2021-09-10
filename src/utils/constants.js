@@ -18,6 +18,10 @@ export const cardForm = document.querySelector(".popup__form_type_card");
 export const newPlace = cardForm.elements.newplace;
 export const newPicture = cardForm.elements.picture;
 export const container = document.querySelector(".elements");
+export const delPopup = document.querySelector('.popup_type_delete');
+export const avatarButton = document.querySelector('.profile__avatar-box');
+export const avatarPopup = document.querySelector('.popup_type_avatar');
+export const popupButton = document.querySelector('.popup__button')
 export const validationSettings = {
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",
@@ -26,36 +30,3 @@ export const validationSettings = {
   errorClass: "popup__error_visible",
 };
 
-import sochi from "../images/sochi.png";
-import sheregesh from "../images/sheregesh.png";
-import karely from "../images/karely.png";
-import Moscow from "../images/moscow.png";
-import Tomsk from "../images/tomsk.png";
-import altai from "../images/altai.png";
-
-export const initialCards = [
-  {
-    name: "Сочи",
-    link: sochi,
-  },
-  {
-    name: "Шерегеш",
-    link: sheregesh,
-  },
-  {
-    name: "Карелия",
-    link: karely,
-  },
-  {
-    name: "Москва",
-    link: Moscow,
-  },
-  {
-    name: "Томск",
-    link: Tomsk,
-  },
-  {
-    name: "Алтай",
-    link: altai,
-  },
-];

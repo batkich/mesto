@@ -6,7 +6,11 @@ export class Section {
   }
 
   renderItems() {
-    this._renderedItems.forEach((item) => this._renderer(item));
+    this._renderedItems
+      .then((data) => {
+        data.cards.forEach((item) => this._renderer(item, data.owner));
+      })
+
   }
 
   additem(element) {

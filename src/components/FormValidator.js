@@ -14,10 +14,6 @@ export class FormValidator {
     );
   }
 
-  // Артем, спасибо за подробные разьяснения, вроде уложилось в голове!
-  // Метод clearPopupError() пришлось сделать публичным и вызывать его при открытии попапа, т.к. он вызывался один раз при открытии страницы.
-  // А если в попапе оставить поля с ошибкой валидации и закрыть попап, то при новом открытии попапа ошибка валидации оставалась.
-
   _showInputError(item) {
     const errorElement = this._formElement.querySelector(`.${item.id}-error`);
     item.classList.add(this._inputErrorClass);
