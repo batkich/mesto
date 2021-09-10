@@ -21,6 +21,7 @@ export const container = document.querySelector(".elements");
 export const delPopup = document.querySelector('.popup_type_delete');
 export const avatarButton = document.querySelector('.profile__avatar-box');
 export const avatarPopup = document.querySelector('.popup_type_avatar');
+export const avatarPicture = document.querySelector('.profile__avatar');
 export const popupButton = document.querySelector('.popup__button')
 export const validationSettings = {
   inputSelector: ".popup__input",

@@ -16,6 +16,7 @@ import {
   delPopup,
   avatarButton,
   avatarPopup,
+  avatarPicture
 } from "../utils/constants.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { Section } from "../components/Section.js";
@@ -46,11 +47,12 @@ const profileAvatarPopup = new PopupWithForm(avatarPopup, {
   addInfo: (item) => {
     api.setNewAvatar(item)
       .then((data) => {
-        avatarButton.setAttribute("src", data.avatar)
+        console.log(data)
+        avatarPicture.setAttribute("src", data.avatar)
       })
-      .catch((err) => {
-        renderError(`Ошибка: ${err}`);
-      })
+      // .catch((err) => {
+      //   renderError(`Ошибка: ${err}`);
+      // })
       .finally(() => {
         loadingElements(false, avatarPopup.querySelector('.popup__button'));
       });

@@ -110,7 +110,7 @@ export class Api {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        avatar: item.picture,
+        avatar: item.avatar,
       })
     }).then((data) => {
       if (data.ok) {
