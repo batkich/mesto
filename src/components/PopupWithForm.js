@@ -1,5 +1,4 @@
 import { Popup } from "./Popup.js";
-import { loadingElements } from "../pages/index.js"
 
 export class PopupWithForm extends Popup {
   constructor(popup, { addInfo }) {
@@ -22,9 +21,7 @@ export class PopupWithForm extends Popup {
     super.setEventListeners();
     this._popup.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      loadingElements(true, this._popupButton);
       this.addInfo(this._getInputValues());
-      this.close();
     });
   }
 

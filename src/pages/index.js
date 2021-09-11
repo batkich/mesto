@@ -6,6 +6,8 @@ import {
   popupCard,
   profileName,
   profileInfo,
+  profileAvatar,
+  profile_Id,
   nameInput,
   jobInput,
   container,
@@ -16,7 +18,6 @@ import {
   delPopup,
   avatarButton,
   avatarPopup,
-  avatarPicture
 } from "../utils/constants.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { Section } from "../components/Section.js";
@@ -43,28 +44,67 @@ const api = new Api({
   }
 });
 
+Promise.all([api.getprofileInfo(), api.getInitialCards()])
+      .then((results) => {
+        const owner = results[0];
+        profile.setUserInfo(owner);
+        profileAvatar.src = owner.avatar;
+        profile_Id._id = owner._id;
+        const cards = results[1];
+        const ownersAndCards = { owner, cards };
+        contentBox.renderItems(ownersAndCards);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+
+const contentBox = new Section(
+  {
+    renderer: (item, profileMe) => {
+      const card = createNewCard(item, profileMe);
+      const cardElement = card.generateCard();
+      contentBox.additem(cardElement);
+    },
+  },
+  container
+);
+
 const profileAvatarPopup = new PopupWithForm(avatarPopup, {
   addInfo: (item) => {
+        loadingElements(true, avatarPopup.querySelector('.popup__button'));
+
+        // Здравствуйте Геннадий! Спасибо за подробные разьяснения в комментариях-замечаниях. После исправления получил более "глубокое" понимание
+        // как все работает. Но не понял как сделать общую кнопку-константу (.popup__button) для всех попапов. Так как если искать ее в document,
+        // получу первую кнопку. Поэтому в каждом попапе ищу кнопку отдельно (avatarPopup.querySelector('.popup__button'); popupProfile.querySelector('.popup__button');
+        // popupCard.querySelector('.popup__button'));
+
     api.setNewAvatar(item)
       .then((data) => {
-        console.log(data)
-        avatarPicture.setAttribute("src", data.avatar)
+        profileAvatar.src = data.avatar
       })
-      // .catch((err) => {
-      //   renderError(`Ошибка: ${err}`);
-      // })
+      .then(() => {
+        profileAvatarPopup.close();
+      })
+       .catch((err) => {
+         console.log(`Ошибка: ${err}`);
+       })
       .finally(() => {
         loadingElements(false, avatarPopup.querySelector('.popup__button'));
       });
   },
 });
 
-profileAvatarPopup.setEventListeners();
-
 const deletePopup = new PopupWithoutForm(delPopup, {
   doCardDelete: (cardToDelete) => {
-    api.deleteCard(cardToDelete.id);
-    cardToDelete.card.remove();
+    api.deleteCard(cardToDelete.id)
+    .then(() => {
+      deletePopup.close();
+      cardToDelete.card.remove();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
+
   }
 });
 
@@ -87,16 +127,20 @@ function createNewCard(item, profileMe) {
     {
       handleLikeClick: (element) => {
         api.likeCard(element._id).then((data) => {
-          element._span.textContent = data.likes.length;
-          element = data.likes;
+          element.span.textContent = data.likes.length;
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
         })
       }
     },
     {
       handleDislikeClick: (element) => {
         api.dislikeCard(element._id).then((data) => {
-          element._span.textContent = data.likes.length;
-          element = data.likes;
+          element.span.textContent = data.likes.length;
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
         })
       }
     },
@@ -116,47 +160,19 @@ validationPopupProfile.enableValidation();
 const validationPopupAvatar = new FormValidator(validationSettings, avatarPopup);
 validationPopupAvatar.enableValidation();
 
-const getowner = function () {
-  api.getprofileInfo()
-    .then((data) => {
-      profileName.textContent = data.name;
-      profileInfo.textContent = data.about;
-      return
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
+const profile = new UserInfo({ profileName, profileInfo, profileAvatar, profile_Id });
 
-getowner();
-
-const contentBox = new Section(
-  {
-    items: Promise.all([api.getprofileInfo(), api.getInitialCards()])
-      .then((results) => {
-        const owner = results[0];
-        const cards = results[1];
-        const ownersAndCards = { owner, cards };
-        return ownersAndCards
-      }),
-    renderer: (item, profileMe) => {
-      const card = createNewCard(item, profileMe);
-      const cardElement = card.generateCard();
-      contentBox.additem(cardElement);
-    },
-  },
-  container
-);
-
-contentBox.renderItems();
-
-const profile = new UserInfo({ profileName, profileInfo });
 
 const popupForm = new PopupWithForm(popupProfile, {
   addInfo: (item) => {
-    profile.setUserInfo(item);
-    api.setProfileInfo(item).catch((err) => {
-      renderError(`Ошибка: ${err}`);
+    loadingElements(true, popupProfile.querySelector('.popup__button'));
+    api.setProfileInfo(item)
+    .then((data) => {
+      profile.setUserInfo(data);
+      popupForm.close();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
     })
       .finally(() => {
         loadingElements(false, popupProfile.querySelector('.popup__button'));
@@ -171,14 +187,18 @@ const popupAddCard = new PopupWithForm(popupCard, {
     const newDataCard = {};
     newDataCard.name = item.newplace;
     newDataCard.link = item.picture;
-    const myProfile = { _id: '0a7693a707e10be691360b74' }
+    loadingElements(true, popupCard.querySelector('.popup__button'))
     api.setNewCard(newDataCard)
       .then((data) => {
-        const card = createNewCard(data, myProfile);
+        const card = createNewCard(data, profile_Id);
         const cardElement = card.generateCard();
         contentBox.additemUp(cardElement);
-      }).catch((err) => {
-        renderError(`Ошибка: ${err}`);
+      })
+      .then(() => {
+        popupAddCard.close();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
       })
       .finally(() => {
         loadingElements(false, popupCard.querySelector('.popup__button'));
@@ -187,6 +207,7 @@ const popupAddCard = new PopupWithForm(popupCard, {
 });
 
 popupAddCard.setEventListeners();
+profileAvatarPopup.setEventListeners();
 
 editButton.addEventListener("click", () => {
   popupForm.open();
@@ -202,10 +223,10 @@ addButton.addEventListener("click", () => {
   popupAddCard.open();
 });
 
+avatarButton.addEventListener('click', () => {
+  validationPopupAvatar.toogleSaveButton();
+  validationPopupAvatar.clearPopupError();
+  profileAvatarPopup.open()})
+
 avatarButton.addEventListener('mouseover', () => {document.querySelector('.profile__avatar-cursor').classList.add('profile__avatar-cursor_visible')});
 avatarButton.addEventListener('mouseout', () => {document.querySelector('.profile__avatar-cursor').classList.remove('profile__avatar-cursor_visible')});
-avatarButton.addEventListener('click', () => { profileAvatarPopup.open()})
-
-
-
-

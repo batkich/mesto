@@ -55,7 +55,7 @@ export class Card {
     this._element.querySelector('.element__button').classList.add('element__button_type_active');
     const likesThatCard = {};
     likesThatCard._id = this._data._id;
-    likesThatCard._span = this._element.querySelector('.element__button-counter');
+    likesThatCard.span = this._element.querySelector('.element__button-counter');
     this.handleLikeClick(likesThatCard);
   }
 
@@ -63,7 +63,7 @@ export class Card {
     this._element.querySelector('.element__button').classList.remove('element__button_type_active');
     const likesThatCard = {};
     likesThatCard._id = this._data._id;
-    likesThatCard._span = this._element.querySelector('.element__button-counter');
+    likesThatCard.span = this._element.querySelector('.element__button-counter');
     this.handleDislikeClick(likesThatCard);
   }
 

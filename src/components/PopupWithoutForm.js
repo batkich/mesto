@@ -12,7 +12,6 @@ export class PopupWithoutForm extends Popup {
     this.delButton.addEventListener("click", (evt) => {
       evt.preventDefault();
       this.doCardDelete(this.cardToDelete)
-      this.close();
     });
   }
 
@@ -20,9 +19,5 @@ export class PopupWithoutForm extends Popup {
     super.open();
     this.cardToDelete = item;
     return this.cardToDelete;
-  }
-
-  close() {
-    super.close();
   }
 }
