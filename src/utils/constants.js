@@ -6,7 +6,6 @@ export const popupPictureBox = document.querySelector(".popup_type_picture");
 export const profileName = document.querySelector(".profile__info-name");
 export const profileInfo = document.querySelector(".profile__info-text");
 export const profileAvatar = document.querySelector('.profile__avatar');
-export let profile_Id = {_id: ''};
 export const profileFormElement = document.querySelector(
   ".popup__form_type_profile"
 );
@@ -23,8 +22,9 @@ export const container = document.querySelector(".elements");
 export const delPopup = document.querySelector('.popup_type_delete');
 export const avatarButton = document.querySelector('.profile__avatar-box');
 export const avatarPopup = document.querySelector('.popup_type_avatar');
-//export const avatarPicture = document.querySelector('.profile__avatar');
-//export const popupButton = document.querySelector('.popup__button');
+export const popupAvatarButton = avatarPopup.querySelector('.popup__button');
+export const popupProfileButton = popupProfile.querySelector('.popup__button');
+export const popupCardButton = popupCard.querySelector('.popup__button');
 export const validationSettings = {
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",

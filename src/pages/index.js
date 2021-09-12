@@ -7,7 +7,6 @@ import {
   profileName,
   profileInfo,
   profileAvatar,
-  profile_Id,
   nameInput,
   jobInput,
   container,
@@ -18,6 +17,9 @@ import {
   delPopup,
   avatarButton,
   avatarPopup,
+  popupAvatarButton,
+  popupProfileButton,
+  popupCardButton,
 } from "../utils/constants.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { Section } from "../components/Section.js";
@@ -36,6 +38,8 @@ export function loadingElements(onLoad, popupButton) {
   }
 }
 
+let profileId = null;
+
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-27',
   headers: {
@@ -48,11 +52,11 @@ Promise.all([api.getprofileInfo(), api.getInitialCards()])
       .then((results) => {
         const owner = results[0];
         profile.setUserInfo(owner);
-        profileAvatar.src = owner.avatar;
-        profile_Id._id = owner._id;
+        profileId = owner;
         const cards = results[1];
         const ownersAndCards = { owner, cards };
         contentBox.renderItems(ownersAndCards);
+
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -71,16 +75,10 @@ const contentBox = new Section(
 
 const profileAvatarPopup = new PopupWithForm(avatarPopup, {
   addInfo: (item) => {
-        loadingElements(true, avatarPopup.querySelector('.popup__button'));
-
-        // Здравствуйте Геннадий! Спасибо за подробные разьяснения в комментариях-замечаниях. После исправления получил более "глубокое" понимание
-        // как все работает. Но не понял как сделать общую кнопку-константу (.popup__button) для всех попапов. Так как если искать ее в document,
-        // получу первую кнопку. Поэтому в каждом попапе ищу кнопку отдельно (avatarPopup.querySelector('.popup__button'); popupProfile.querySelector('.popup__button');
-        // popupCard.querySelector('.popup__button'));
-
+        loadingElements(true, popupAvatarButton);
     api.setNewAvatar(item)
       .then((data) => {
-        profileAvatar.src = data.avatar
+        profile.setUserInfo(data);
       })
       .then(() => {
         profileAvatarPopup.close();
@@ -89,7 +87,7 @@ const profileAvatarPopup = new PopupWithForm(avatarPopup, {
          console.log(`Ошибка: ${err}`);
        })
       .finally(() => {
-        loadingElements(false, avatarPopup.querySelector('.popup__button'));
+        loadingElements(false, popupAvatarButton);
       });
   },
 });
@@ -160,12 +158,12 @@ validationPopupProfile.enableValidation();
 const validationPopupAvatar = new FormValidator(validationSettings, avatarPopup);
 validationPopupAvatar.enableValidation();
 
-const profile = new UserInfo({ profileName, profileInfo, profileAvatar, profile_Id });
+const profile = new UserInfo({ profileName, profileInfo, profileAvatar, profileId });
 
 
 const popupForm = new PopupWithForm(popupProfile, {
   addInfo: (item) => {
-    loadingElements(true, popupProfile.querySelector('.popup__button'));
+    loadingElements(true, popupProfileButton);
     api.setProfileInfo(item)
     .then((data) => {
       profile.setUserInfo(data);
@@ -175,22 +173,24 @@ const popupForm = new PopupWithForm(popupProfile, {
       console.log(`Ошибка: ${err}`);
     })
       .finally(() => {
-        loadingElements(false, popupProfile.querySelector('.popup__button'));
+        loadingElements(false, popupProfileButton);
       });
   },
 });
 
 popupForm.setEventListeners();
 
+
+
 const popupAddCard = new PopupWithForm(popupCard, {
   addInfo: (item) => {
     const newDataCard = {};
     newDataCard.name = item.newplace;
     newDataCard.link = item.picture;
-    loadingElements(true, popupCard.querySelector('.popup__button'))
+    loadingElements(true, popupCardButton)
     api.setNewCard(newDataCard)
       .then((data) => {
-        const card = createNewCard(data, profile_Id);
+        const card = createNewCard(data, profileId);
         const cardElement = card.generateCard();
         contentBox.additemUp(cardElement);
       })
@@ -201,7 +201,7 @@ const popupAddCard = new PopupWithForm(popupCard, {
         console.log(`Ошибка: ${err}`);
       })
       .finally(() => {
-        loadingElements(false, popupCard.querySelector('.popup__button'));
+        loadingElements(false, popupCardButton);
       });
   },
 });
